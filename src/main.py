@@ -14,7 +14,14 @@ from api.sms_guard.logic.routes import sms_guard_bp
 # MVP 3 (KADA)
 from api.kada.logic.routes import kada_bp
 
-app = Flask(__name__)
+# Get the absolute path to the directory containing this script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Define the paths to the templates and static folders relative to the current_dir
+templates_dir = os.path.join(current_dir, '..', 'templates')
+static_dir = os.path.join(current_dir, '..', 'static')
+
+app = Flask(__name__, template_folder=templates_dir, static_folder=static_dir)
 app.secret_key = 'Masa123kc'
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
