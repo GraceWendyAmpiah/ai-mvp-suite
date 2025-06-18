@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="left-panel">
+        <h1>KADA SMS Booking System</h1>
+        <p>Enter your booking request as an SMS message. KADA will process your intent and provide a response.</p>
+        
+        <div class="input-section">
+            <form id="kada-form">
+                <textarea name="sms_message" id="sms_message" placeholder="e.g., I need a ride to Accra Mall" class="textarea-field"></textarea>
+                <button type="submit" class="submit-btn">Process SMS</button>
+            </form>
+        </div>
+
+        <div class="info-section">
+            <h4>About KADA</h4>
+            <p>KADA is an intelligent SMS-based booking system designed to simplify ride and delivery requests. It uses Natural Language Toolkit (NLTK) to understand user intent from free-form text messages, providing a seamless and intuitive booking experience.</p>
+            <h4>Supported Intents:</h4>
+            <ul>
+                <li><strong>Ride Request:</strong> "I need a ride to [destination]", "Going to [place]"</li>
+                <li><strong>Delivery Request:</strong> "Deliver package to [address]", "Send item to [person]"</li>
+                <li><strong>Help Request:</strong> "Help", "How to use KADA"</li>
+            </ul>
+            <p>For more detailed information, please refer to the <a href="{{ url_for('static', filename='KADA_ReadMe.pdf') }}" target="_blank">KADA Project Documentation (PDF)</a>.</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <h3>KADA Response</h3>
+        <div id="kada-response" class="response-box">
+            <p>KADA's response will appear here...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const kadaForm = document.getElementById("kada-form");
+    const kadaResponseBox = document.getElementById("kada-response");
+
+    kadaForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const smsMessage = document.getElementById("sms_message").value.trim();
+
+        if (!smsMessage) {
+            kadaResponseBox.innerHTML = 
+                `<p class="warning">Please enter an SMS message to process.</p>`;
+            return;
+        }
+
+        try {
+            kadaResponseBox.innerHTML = 
+                `<p class="loading">Processing your request...</p>`;
+
+            const res = await fetch("/kada/process", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: smsMessage })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                kadaResponseBox.innerHTML = `
+                    <p><strong>Original Message:</strong> ${data.message}</p>
+                    <p><strong>Detected Intent:</strong> <span class="success">${data.intent.replace(/_/g, ' ').toUpperCase()}</span></p>
+                    <p><strong>KADA's Reply:</strong> ${data.response}</p>
+                `;
+            } else {
+                kadaResponseBox.innerHTML = `
+                    <p class="error">Error: ${data.error || 'Unknown error'}</p>
+                `;
+            }
+        } catch (error) {
+            console.error("Error processing KADA request:", error);
+            kadaResponseBox.innerHTML = 
+                `<p class="error">An error occurred while connecting to the KADA service.</p>`;
+        }
+    });
+</script>
+{% endblock %}
+

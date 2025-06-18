@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="left-panel">
+        <h1>SMS Guard - Fraud Detection</h1>
+        <p>Paste a mobile money SMS message below. We'll detect if it's fraudulent.</p>
+        
+        <div class="input-section">
+            <form id="sms-form">
+                <textarea name="sms_text" id="sms_text" placeholder="Paste your SMS message here..." class="textarea-field"></textarea>
+                <button type="submit" class="submit-btn">Check Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <h3>Classification Result</h3>
+        <div id="result" class="response-box">
+            <p>Your classification result will appear here...</p>
+        </div>
+        
+        <div class="info-section">
+            <h4>About SMS Guard</h4>
+            <p>SMS Guard is an AI-powered tool designed to detect fraudulent Mobile Money (MoMo) messages in real-time. It operates locally and requires no internet connectivity.</p>
+            
+            <h4>Classification Types</h4>
+            <ul>
+                <li><strong>LEGIT:</strong> Matches known valid format</li>
+                <li><strong>FRAUD:</strong> Contains suspicious keywords</li>
+                <li><strong>UNKNOWN:</strong> No strong match found</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('sms-form');
+    const resultBox = document.getElementById('result');
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const sms = document.getElementById('sms_text').value;
+
+        if (!sms.trim()) {
+            resultBox.innerHTML = '<p style="color: orange;">Please enter an SMS message to check.</p>';
+            return;
+        }
+
+        try {
+            const res = await fetch('/sms-guard/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: sms })
+            });
+
+            const data = await res.json();
+            console.log('DEBUG SMS RESPONSE:', data);
+
+            // Check if result is an object or string
+            const result = typeof data.result === 'string' ? data.result : data.result?.type || "unknown";
+
+            resultBox.innerHTML = `
+                <p><strong>Classification:</strong> <span style="color: ${result === 'fraud' ? 'red' : result === 'legit' ? 'green' : 'orange'}">${result.toUpperCase()}</span></p>
+                <p><strong>Message:</strong> ${sms.substring(0, 100)}${sms.length > 100 ? '...' : ''}</p>
+            `;
+        } catch (error) {
+            resultBox.innerHTML = '<p style="color: red;">Error processing request. Please try again.</p>';
+        }
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="max-w-4xl mx-auto px-4 py-8 prose prose-pink prose-lg dark:prose-invert">
+  <h1><strong>{{ project_title }}</strong></h1>
+  <p>{{ project_description }}</p>
+
+  {% if project_name == 'sms-fraud-detection' %}
+    <!-- Embed full SMS Guard white paper here -->
+    <hr />
+    <h2>Project Overview</h2>
+    <p><strong>Project Name:</strong> SMS Guard<br />
+    <strong>Type:</strong> AI MVP (Minimum Viable Product)<br />
+    <strong>Phase:</strong> MVP Completed, Awaiting Data Integration<br />
+    <strong>Status:</strong> Experimental / Research-Oriented<br />
+    <strong>Category:</strong> Local AI, Cybersecurity, Mobile Money, Offline Tools</p>
+    <p>SMS Guard is an AI-powered tool designed to detect fraudulent Mobile Money (MoMo) messages in real-time...</p>
+    
+    <!-- Continue with full white paper (as given earlier) -->
+
+    <hr />
+    <h2>Try it out</h2>
+    <form id="sms-form">
+      <label for="sms-text">Paste SMS message:</label><br>
+      <textarea id="sms-text" name="sms-text" rows="5" cols="60"></textarea><br>
+      <button type="submit">Check Message</button>
+    </form>
+    <div id="sms-result" style="margin-top: 1em; font-weight: bold;"></div>
+
+    <script>
+      const form = document.getElementById('sms-form');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const text = document.getElementById('sms-text').value;
+        const res = await fetch('/sms-guard/check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sms: text })
+        });
+        const result = await res.json();
+        document.getElementById('sms-result').innerText = `Classification: ${result.classification}`;
+      });
+    </script>
+  {% else %}
+    <p><em>This will be a live demo section once the model and backend are linked.</em></p>
+  {% endif %}
+</main>
+{% endblock %}

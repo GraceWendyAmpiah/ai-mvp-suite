@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="home-container">
+    <div class="hero-section">
+        <h1>AI MVP Suite</h1>
+        <p class="hero-subtitle">Transforming Ideas into Impact</p>
+        <p class="hero-description">Explore innovative AI-powered solutions designed to solve real-world problems in Ghana and beyond. Each MVP demonstrates the power of resourceful engineering and practical implementation.</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number">3</span>
+                <span class="stat-label">AI Solutions</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Local Focus</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Possibilities</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mvp-grid">
+        <div class="mvp-card featured">
+            <div class="card-header">
+                <h3>ASAD - Smart USSD Assistant</h3>
+                <span class="card-badge">NLP Powered</span>
+            </div>
+            <p>Transform complex USSD menu navigation into simple natural language commands. Say goodbye to memorizing codes and hello to intuitive mobile money interactions.</p>
+            <div class="card-features">
+                <span class="feature-tag">Natural Language Processing</span>
+                <span class="feature-tag">Intent Classification</span>
+                <span class="feature-tag">USSD Integration</span>
+            </div>
+            <a href="/asad" class="card-action">Try ASAD →</a>
+        </div>
+        
+        <div class="mvp-card">
+            <div class="card-header">
+                <h3>SMS Guard - Fraud Detection</h3>
+                <span class="card-badge">AI Security</span>
+            </div>
+            <p>Protect yourself from mobile money fraud with our lightweight AI model that analyzes SMS messages locally and flags potential scams in real-time.</p>
+            <div class="card-features">
+                <span class="feature-tag">Machine Learning</span>
+                <span class="feature-tag">Local Processing</span>
+                <span class="feature-tag">Real-time Analysis</span>
+            </div>
+            <a href="/sms-guard" class="card-action">Try SMS Guard →</a>
+        </div>
+
+        <div class="mvp-card">
+            <div class="card-header">
+                <h3>KADA SMS Booking System</h3>
+                <span class="card-badge">Smart Booking</span>
+            </div>
+            <p>Revolutionary SMS-based booking system for rides and deliveries that understands natural language, making transportation accessible to everyone.</p>
+            <div class="card-features">
+                <span class="feature-tag">SMS Interface</span>
+                <span class="feature-tag">Intent Understanding</span>
+                <span class="feature-tag">Booking Automation</span>
+            </div>
+            <a href="/kada" class="card-action">Try KADA →</a>
+        </div>
+    </div>
+
+    <div class="impact-section">
+        <h2>Building for Impact</h2>
+        <p>Each solution addresses real challenges in the Ghanaian context, leveraging technology to bridge gaps and create opportunities. From simplifying mobile money transactions to preventing fraud and improving transportation access.</p>
+        <div class="impact-grid">
+            <div class="impact-item">
+                <div class="impact-icon">🚀</div>
+                <h4>Innovation</h4>
+                <p>Cutting-edge AI solutions built with practical constraints in mind</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-icon">🌍</div>
+                <h4>Local Context</h4>
+                <p>Designed specifically for Ghanaian users and local challenges</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-icon">⚡</div>
+                <h4>Rapid Execution</h4>
+                <p>From concept to working prototype in record time</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

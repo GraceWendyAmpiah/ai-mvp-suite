@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="left-panel">
+        <h1>ASAD - Smart USSD Assistant</h1>
+        <p>Enter your request in natural language or USSD format.</p>
+        
+        <!-- Natural Language Input -->
+        <div class="input-section">
+            <h3>Natural Language Input</h3>
+            <input type="text" id="nlpInput" placeholder="e.g., Send 10 cedis to 0501234567 for food" class="input-field">
+            <button id="nlpBtn" class="submit-btn">Submit (NLP)</button>
+        </div>
+
+        <!-- USSD Simulation Input -->
+        <div class="input-section">
+            <h3>USSD Simulation</h3>
+            <form id="ussdForm">
+                <input type="text" id="input" name="input" placeholder="Enter USSD code" class="input-field">
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <h3>Response</h3>
+        <div id="response" class="response-box">
+            <p>Your response will appear here...</p>
+        </div>
+
+        <div class="info-section">
+            <h4>ASAD – Smart USSD Assistant (MVP 1)</h4>
+            <p><strong>Project Theme:</strong> Bridging the gap between AI and the average Ghanaian.</p>
+            <h5>Problem</h5>
+            <p>In Ghana and across much of Africa, USSD (Unstructured Supplementary Service Data) remains the backbone for accessing essential mobile services — especially for mobile money, airtime, and banking. Despite its ubiquity, navigating these menus can be frustrating, especially for users with limited literacy, disabilities, or those who simply make mistakes during transactions.</p>
+            <p>USSD is rigid. It expects exact input, fixed sequences, and unforgiving menu logic. There’s no flexibility for natural language or voice — yet that’s exactly how people think and communicate.</p>
+            <h5>Objective</h5>
+            <p>The goal of ASAD (AI Smart Assistant for USSD) is to build a natural language interface on top of existing USSD menus, enabling users to type (or eventually speak) what they want in their own words — like:</p>
+            <ul>
+                <li>“Send 5 cedis to 0501234567 for food”</li>
+                <li>“Buy 10 cedis airtime for myself”</li>
+                <li>“Check wallet balance”
+            </ul>
+            <p>ASAD should interpret the user’s intent, automatically map it to the corresponding USSD flow, and respond as though it were navigating the menus on the user’s behalf.</p>
+            <p>This MVP is entirely text-based, focused on practical, local-first AI. It works offline, uses a small custom-trained BERT model, and is engineered for clarity, not complexity.</p>
+            <h5>Design and Architecture</h5>
+            <p><strong>Framework:</strong> Flask (Python backend)</p>
+            <p><strong>Frontend:</strong> HTML + JavaScript</p>
+            <p><strong>AI Component:</strong></p>
+            <ul>
+                <li>Trained intent classifier using DistilBERT (lightweight)</li>
+                <li>Each intent (like Send Money, Buy Airtime) is routed to a logic handler (modular architecture)</li>
+            </ul>
+            <p><strong>Directory Layout:</strong></p>
+            <ul>
+                <li><code>models/asad_nlp/train_intent_model.py</code> → For training intent classification</li>
+                <li><code>api/ussd_assistant/routes.py</code> → For processing NLP or direct input requests</li>
+                <li><code>api/ussd_assistant/logic/*.py</code> → For business logic handling (send_money, buy_airtime, etc.)</li>
+                <li><code>site/templates/asad/index.html</code> → UI frontend with NLP and classic input form</li>
+            </ul>
+            <h5>Flow Summary</h5>
+            <ol>
+                <li>User types a natural language request.</li>
+                <li>The request is sent to /asad (Flask route).</li>
+                <li>The intent model classifies the input (e.g., “send_money”).</li>
+                <li>The matching logic handler runs that intent using pre-defined USSD flows.</li>
+                <li>ASAD returns a text-like response as if it’s navigating the USSD menu.</li>
+            </ol>
+            <h5>Constraints</h5>
+            <ul>
+                <li>No speech-to-text in this MVP. The microphone icon is present but not functional.</li>
+                <li>Voice support was deprioritized to focus on stable intent routing first.</li>
+                <li>No external LLMs. ASAD uses a locally trained model due to bandwidth, latency, and privacy.</li>
+                <li>All tools and models are built using only the frameworks and libraries within the zipped ai-mvp-suite environment.</li>
+            </ul>
+            <h5>Lessons Learned</h5>
+            <ul>
+                <li>Start local, not large. An LLM was unnecessary. A small BERT model trained on well-labeled local data produced stronger, explainable results.</li>
+                <li>Hardcoding doesn’t scale. Previous brittle menu-based systems were difficult to maintain. Shifting to intent-based design gave flexibility.</li>
+                <li>Clear separation of logic matters. By dividing NLP, intent routing, and USSD logic, each part of the system could be tested and replaced independently.</li>
+                <li>Build for the people. Every decision was made with the user in mind: someone typing on a low-end device, possibly offline, needing help fast.</li>
+            </ul>
+            <h5>What’s Next</h5>
+            <ul>
+                <li>Add speech-to-text for full voice interaction.</li>
+                <li>Expand training data for better generalization.</li>
+                <li>Support multiple local languages and dialects.</li>
+                <li>Test with real users for live MoMo scenarios.</li>
+            </ul>
+            <h5>Outcome</h5>
+            <p>ASAD is now a fully working demo accessible from the MVP suite site. It handles both direct menu-style input and NLP-style freeform input, with clear UI and real logic routing beneath.</p>
+            <p>It represents the first major step toward accessible AI in everyday mobile interactions in Ghana.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let useNLP = true;
+
+    document.getElementById("nlpBtn").addEventListener("click", function () {
+        const input = document.getElementById("nlpInput").value.trim();
+        if (!input) return;
+
+        const route = useNLP ? "/asad/nlp-inject" : "/asad";
+
+        fetch(route, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: input })
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("response").innerHTML = `
+                <p><strong>Intent:</strong> ${data.intent || 'N/A'}</p>
+                <p><strong>Confidence:</strong> ${data.score || 'N/A'}</p>
+                <p><strong>Response:</strong> ${data.action_result || data.response || "No response"}</p>
+            `;
+
+            if (route === "/asad/nlp-inject" && String(data.action_result).toLowerCase().includes("confirm")) {
+                useNLP = false;
+            }
+        })
+        .catch(() => {
+            document.getElementById("response").innerHTML = "<p>Error processing request.</p>";
+        });
+    });
+
+    document.getElementById("ussdForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const input = document.getElementById("input").value.trim();
+        if (!input) return;
+
+        fetch("/asad", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ input })
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("response").innerHTML = `<p>${data.response}</p>`;
+        })
+        .catch(() => {
+            document.getElementById("response").innerHTML = "<p>Error processing request.</p>";
+        });
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,107 @@
+data = """
+text,label
+"azar 50 cedis to 0241234567",send_money
+"send 200 gh to my brother",send_money
+"momo 10 cedis to ama",send_money
+"please send 150 cedis to 0555123456",send_money
+"i want to send money to Kofi",send_money
+"transfer 30gh to my guy",send_money
+"send money to this number 0209876543",send_money
+"i want to transfer money to my father",send_money
+"send 75 to my mumsi",send_money
+"transfer 40 cedis from my account",send_money
+"buy 5 cedis for me",buy_airtime_self
+"top me up 2 cedis",buy_airtime_self
+"i need 10 cedis credit for my phone",buy_airtime_self
+"buy me credit 5gh",buy_airtime_self
+"chale buy me airtime 1 cedi",buy_airtime_self
+"i want to buy credit for myself",buy_airtime_self
+"load my phone with 20 cedis airtime",buy_airtime_self
+"purchase 3 cedis airtime for my number",buy_airtime_self
+"top up my number with 15",buy_airtime_self
+"buy myself 1 cedi credit",buy_airtime_self
+"buy 5 cedis airtime for Ama",buy_airtime_other
+"recharge 0201234567 with 3 cedis",buy_airtime_other
+"top up for my friend 10gh",buy_airtime_other
+"buy credit for my sister 0244112233 5 cedis",buy_airtime_other
+"i'm buying credit for my guy",buy_airtime_other
+"send airtime to this number 0501239876",buy_airtime_other
+"please buy 2 cedis credit for my mother",buy_airtime_other
+"recharge another number with 4 cedis",buy_airtime_other
+"i want to buy credit for someone else",buy_airtime_other
+"send 8 cedis credit to 0267654321",buy_airtime_other
+"pay ECG bill",pay_bill
+"settle my water bill 20 cedis",pay_bill
+"i wan pay my light bill",pay_bill
+"pay my dstv subscription using momo",pay_bill
+"i am paying my gotv bill",pay_bill
+"make payment for school fees",pay_bill
+"i want to pay my ghana water company bill",pay_bill
+"pay my GRA tax with mobile money",pay_bill
+"need to settle the electricity bill",pay_bill
+"let me pay for the DStv",pay_bill
+"enable cash out",allow_cashout
+"allow agent to withdraw",allow_cashout
+"i want to do cash out",allow_cashout
+"please allow me to withdraw money",allow_cashout
+"allow cash withdrawal from my wallet",allow_cashout
+"activate cash out",allow_cashout
+"make i fit cash out my money",allow_cashout
+"i want to withdraw cash from an agent",allow_cashout
+"turn on agent withdrawal",allow_cashout
+"permit cashout transaction",allow_cashout
+"stop agent cash out",disallow_cashout
+"disable withdrawal",disallow_cashout
+"i don't want to cash out anymore",disallow_cashout
+"block cash out for my account",disallow_cashout
+"no more withdrawals please",disallow_cashout
+"deactivate cash out on my wallet",disallow_cashout
+"make agent no fit cash out for me",disallow_cashout
+"i do not want to withdraw",disallow_cashout
+"turn off agent withdrawal",disallow_cashout
+"forbid cash out from my momo",disallow_cashout
+"how much momo do i have",check_balance
+"check my balance",check_balance
+"i want to check my balance",check_balance
+"chale what's my balance now",check_balance
+"how much dey my account",check_balance
+"my momo balance please",check_balance
+"what is my current balance",check_balance
+"show me my account balance",check_balance
+"can you tell me my balance",check_balance
+"i need to know my mobile money balance",check_balance
+"wallet summary please",check_wallet
+"show me my momo statement",check_wallet
+"my momo wallet details",check_wallet
+"let me see my wallet history",check_wallet
+"what's in my wallet",check_wallet
+"momo mini statement",check_wallet
+"check my mobile money details",check_wallet
+"i want to see my recent transactions",check_wallet
+"give me my wallet information",check_wallet
+"my transaction history please",check_wallet
+"approve transaction",approve
+"go ahead with the payment",approve
+"yes approve it",approve
+"chale approve",approve
+"please approve the payment",approve
+"i confirm and approve",approve
+"yɛs proceed",approve
+"ok that's correct",approve
+"confirm this payment",approve
+"proceed with it",approve
+"cancel please",cancel
+"back out of this",cancel
+"i no dey do again",cancel
+"cancel the transaction",cancel
+"chale cancel am for me",cancel
+"stop this payment",cancel
+"no i have changed my mind",cancel
+"abeg cancel this thing",cancel
+"do not proceed",cancel
+"end this transaction now",cancel
+""".strip()
+
+with open("C:/Users/grace/Desktop/ai-mvp-suite/models/asad_nlp/intent_data.csv", "w", encoding="utf-8") as f:
+    f.write(data)
+

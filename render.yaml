@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: ai-mvp-site
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 src/main.py
+    plan: free
+    branch: main
+    autoDeploy: true
