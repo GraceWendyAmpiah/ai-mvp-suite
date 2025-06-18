@@ -694,21 +694,25 @@ footer {
   font-size: 3rem;
   margin: 0 0 1rem 0;
   font-weight: 700;
+  color: white;
+  opacity: 1;
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin: 0 0 1.5rem 0;
-  font-weight: 300;
-  opacity: 0.9;
+  font-weight: 500;
+  color: white;
+  opacity: 1;
 }
 
 .hero-description {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   max-width: 600px;
   margin: 0 auto 3rem auto;
   line-height: 1.6;
-  opacity: 0.9;
+  color: white;
+  opacity: 1;
 }
 
 .hero-stats {
