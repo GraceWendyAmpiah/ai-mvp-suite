@@ -41,10 +41,6 @@ def index():
 def about_page():
     return render_template('about.html')
     
-@app.route('/vibe-coding')
-def vibe_coding_page():
-    return render_template('vibe_coding.html')
-
 @app.route('/project/<project_name>')
 def project_page(project_name):
     # Removed other project info, only keeping relevant ones for now
