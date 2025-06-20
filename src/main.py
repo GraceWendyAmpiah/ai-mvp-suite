@@ -4,7 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, render_template, request, jsonify
 from flask_session import Session
-import requests
+
 
 # MVP 1 (ASAD) - NLP Intent Router
 from api.ussd_assistant.routes import ussd_assistant_bp
